@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+    <title>Predicciones de Precio de Aperturas</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- Cargar jQuery desde CDN -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Red Base Radial</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/BA.html">Regresion Lineal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="SVM.html">SVM Regresor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="KNN.html">K vecinos cercanos</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1 class="text-center">Modelo Red de Base Radial (RBF)</h1><br><br>
+    <div class="container">
+        <h1 class="text-center">Seleccionar Empresa</h1>
+        <div class="form-group">
+            <label for="empresaSelect">Seleccione una empresa:</label>
+            <select class="form-control" id="empresaSelect">
+                <option value="default" selected>Seleccione una opción</option>
+                <option value="fortuna">Minera Southern Copper</option>
+                <option value="bhp">BHP Billiton Limited</option>
+                <option value="buenaventura">Minera Buenaventura</option>
+            </select>
+        </div>
+    </div>
+    <div>
+        <div style="text-align: center;">
+            <button class="btn btn-success" onclick="toggleCorrTable()">Mostrar los datos ultimos</button>
+        </div><br><br>
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div id="corrTable" style="display: none; overflow-x: auto;">{{ table1|safe }}</div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div><br>
+    </div>
+    <div id = "BVN">
+        <h1 class="text-center">Minera Buenaventura</h1>        
+        <div class="container">
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <img src="{{ url_for('static', filename='BVN.jpg') }}" class="img-fluid" alt="Actual vs Predicted Open_BVN">
+                </div>
+                <div class="col-2"></div>           
+            </div>
+            <div class="row align-items-start">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <form id="predictForm">
+                        <div class="form-group">
+                            <label for="fecha">Selecciona una fecha:</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="verResultado()">Ver Resultado</button>
+                    </form>
+                </div>
+                <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div id="prediccionResultado" style="text-align: center;">
+                        <h4 id="resultadoTexto"></h4>
+                    </div>
+                </div>
+                <div class="col-2"></div>           
+            </div>
+        </div><br>
+    </div>
+    <div id = "BHP">
+        <h1 class="text-center">BHP Billiton Limited</h1>
+        <div class="container">           
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <img src="{{ url_for('static', filename='BHP.png') }}" class="img-fluid" alt="Actual vs Predicted Open_BVN">
+                </div>
+                <div class="col-2"></div>           
+            </div>
+            <div class="row align-items-start">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <form id="predictForm1">
+                        <div class="form-group">
+                            <label for="fecha1">Selecciona una fecha:</label>
+                            <input type="date" class="form-control" id="fecha1" name="fecha1" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="verResultado1()">Ver Resultado</button>
+                    </form>
+                </div>
+                <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div id="prediccionResultado1" style="text-align: center;">
+                        <h4 id="resultadoTexto1"></h4>
+                    </div>
+                </div>
+                <div class="col-2"></div>           
+            </div>
+        </div>
+    </div>
+    <div id = "FSM">
+        <h1 class="text-center">Minera Southern Copper</h1>       
+        <div class="container">
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <img src="{{ url_for('static', filename='FSM.jpg') }}" class="img-fluid" alt="Actual vs Predicted Open_BVN">
+                </div>
+                <div class="col-2"></div>           
+            </div>
+            <div class="row align-items-start">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <form id="predictForm2">
+                        <div class="form-group">
+                            <label for="fecha1">Selecciona una fecha:</label>
+                            <input type="date" class="form-control" id="fecha2" name="fecha2" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="verResultado2()">Ver Resultado</button>
+                    </form>
+                </div>
+                <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div id="prediccionResultado2" style="text-align: center;">
+                        <h4 id="resultadoTexto2"></h4>
+                    </div>
+                </div>
+                <div class="col-2"></div>           
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>   
+    <script>
+        function toggleCorrTable() {
+            var corrTableDiv = document.getElementById('corrTable');
+            if (corrTableDiv.style.display === 'none') {
+                corrTableDiv.style.display = 'block';
+            } else {
+                corrTableDiv.style.display = 'none';
+            }
+        }            
+        $(document).ready(function() {  
+            if (typeof jQuery != 'undefined') {
+                console.log("jQuery está cargado");
+            } else {
+                console.log("jQuery no se ha cargado");
+            }
+            $("#BVN").show();
+            $("#BHP").hide();
+            $("#FSM").hide();      
+            $("#empresaSelect").change(function() {
+                var valorSeleccionado = $(this).val();
+                switch (valorSeleccionado) {
+                    case "fortuna":
+                        $("#BVN").hide();
+                        $("#BHP").hide();
+                        $("#FSM").show();
+                        break;
+                    case "bhp":
+                        $("#BVN").hide();
+                        $("#BHP").show();
+                        $("#FSM").hide();
+                        break;
+                    case "buenaventura":
+                        $("#BVN").show();
+                        $("#BHP").hide();
+                        $("#FSM").hide();
+                        break;
+                    default:
+                        $("#BNV").show();
+                        $("#BHP").hide();
+                        $("#FSM").hide();
+                        break;
+                }
+            });          
+        });
+        function verResultado() {
+            var fecha = $('#fecha').val();
+            if (fecha) {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/predict',
+                    data: { fecha: fecha },
+                    success: function(response) {
+                        $('#resultadoTexto').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                alert('Por favor selecciona una fecha.');
+            }
+        } 
+        function verResultado1() {
+            var fecha = $('#fecha1').val();
+            if (fecha) {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/predict1',
+                    data: { fecha: fecha },
+                    success: function(response) {
+                        $('#resultadoTexto1').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                alert('Por favor selecciona una fecha.');
+            }
+        }
+        function verResultado2() {
+            var fecha = $('#fecha2').val();
+            if (fecha) {
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/predict2',
+                    data: { fecha: fecha },
+                    success: function(response) {
+                        $('#resultadoTexto2').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                alert('Por favor selecciona una fecha.');
+            }
+        }
+    </script>  
+</body>
+</html>
