@@ -18,7 +18,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.static_folder = 'static'
 
-file_path = 'C:/Python/ProyectoPythonBI/dataframe/finanzas.csv'  # Reemplaza con la ruta a tu archivo CSV
+file_path = 'dataframe/finanzas.csv'  # Reemplaza con la ruta a tu archivo CSV
 
 @app.route('/')
 def home():
