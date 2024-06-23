@@ -94,8 +94,8 @@ def predict():
 
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
-      plt.plot(y_test.values, label='Actual')
-      plt.plot(y_pred, label='Predicted')
+      plt.plot(yBVN_test.values, label='Actual')
+      plt.plot(yBVN_pred, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_BVN')
       plt.xlabel('Samples')
