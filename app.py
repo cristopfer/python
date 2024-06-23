@@ -69,7 +69,6 @@ def home3():
 @app.route('/predict', methods=['POST'])
 def predict():
    fecha_seleccionada = request.form['fecha']
-   print(fecha_seleccionada)
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
    fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
    df2 = pd.read_csv(file_path)
@@ -81,7 +80,9 @@ def predict():
        'Low_GSPC', 'Close_GSPC', 'Open_PEN_X', 'High_PEN_X', 'Low_PEN_X', 'Close_PEN_X','Year_df']
    targetBVN1 = 'Open_BVN'
    X1 = df2[featuresBVN1].iloc[1:]
-   y1 = df2[targetBVN1].iloc[1:]
+   Series_Temporal = df2[targetBVN1]
+   Series_Temporal = Series_Temporal.shift(-1)
+   y1 = Series_Temporal[targetBVN1].iloc[1:]
    XBVN_train, XBVN_test, yBVN_train, yBVN_test = train_test_split(X1, y1, test_size=0.2, random_state=42)
    rbf_feature = RBFSampler(gamma=1, random_state=42, n_components=100)
    modelRBF = make_pipeline(MinMaxScaler(feature_range=(0, 1)), rbf_feature, Ridge(alpha=1.0))
@@ -95,7 +96,6 @@ def predict():
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
-   print(prediccion[0])
    return jsonify({'prediccion': prediccion[0]})
 
 @app.route('/predict1', methods=['POST'])
