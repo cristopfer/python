@@ -70,16 +70,11 @@ def home3():
 def predict():
    fecha_seleccionada = request.form['fecha']
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
-   fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
+   fecha_seleccionada = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
+   print(fecha_seleccionada)
    df = pd.read_csv(file_path)
    #df.index = pd.to_datetime(df.index)
    print(f"Tipo de índice del DataFrame: {type(df.index)}")
-   print(f"Índice del DataFrame (primeras filas): {df.index[:5]}")
-    
-    # Asegurarnos de que el índice es de tipo datetime
-   if not isinstance(df.index, pd.DatetimeIndex):
-      df.index = pd.to_datetime(df.index)
-      print("Índice convertido a DatetimeIndex")
    df2 = df[df.index < fecha_seleccionada]
    print(f"Cantidad de registros después de la selección: {len(df2)}")
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
@@ -100,7 +95,6 @@ def predict():
    yBVN_pred = modelRBF.predict(XBVN_test)
    ultima_fila = df2[featuresBVN1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
-   print(df2[featuresBVN1])
    #nueva_entrada['Year_df'] = fecha_futura.year
 
    nueva_entrada_df = pd.DataFrame([nueva_entrada])
