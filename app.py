@@ -195,19 +195,22 @@ def predict2():
 def predict3():
    fecha_seleccionada = request.form['fecha']
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
-   df2 = pd.read_csv(file_path)
-
-   # Definir las características y el objetivo
-   featuresBVN2 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD','High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF','Low_GCF', 'Adj Close_GCF', 'Open_GSPC', 'High_GSPC','Low_GSPC', 'Close_GSPC', 'Open_PEN_X', 'High_PEN_X', 'Low_PEN_X', 'Close_PEN_X','Indicadores de riesgo - Perú', 'Year_df']
+   fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
+   df = pd.read_csv(file_path)
+   df['Year_df'] = pd.to_datetime(df['Year_df'])
+   df2 = df[df['Year_df'] < fecha_seleccionada]
+   featuresBVN2 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD','High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF','Low_GCF', 'Adj Close_GCF', 'Open_GSPC', 'High_GSPC','Low_GSPC', 'Close_GSPC', 'Open_PEN_X', 'High_PEN_X', 'Low_PEN_X', 'Close_PEN_X']
    targetBVN2 = 'Open_BVN'
 
    X1 = df2[featuresBVN2].iloc[1:]
-   y1 = df2[targetBVN2].iloc[1:]
+   Series_Temporal = df2[targetBVN2].shift(-1)
+   y1 = Series_Temporal.iloc[1:]
+   mask = ~y1.isna()
+   X1 = X1[mask]
+   y1 = y1[mask]
 
-   # Dividir los datos en conjuntos de entrenamiento y prueba
    XBVN_train, XBVN_test, yBVN_train, yBVN_test = train_test_split(X1, y1, test_size=0.2, random_state=42)
 
-   # Escalar los datos
    scaler = StandardScaler()
    XBVN_train_scaled = scaler.fit_transform(XBVN_train)
    XBVN_test_scaled = scaler.transform(XBVN_test)
@@ -215,17 +218,30 @@ def predict3():
    # Definir y entrenar el modelo Gradient Boosting Regression
    linear_model = LinearRegression()
    linear_model.fit(XBVN_train_scaled, yBVN_train)
+   yBVN_pred = linear_model.predict(XBVN_test)
+
+   with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
+      plt.figure(figsize=(10, 5))
+      plt.plot(yBVN_test.values, label='Actual')
+      plt.plot(yBVN_pred, label='Predicted')
+      plt.legend()
+      plt.title('Actual vs Predicted Open_BVN')
+      plt.xlabel('Samples')
+      plt.ylabel('Open_BVN')
+      plt.savefig(tmpfile.name, format='png')
+      tmpfile_path = tmpfile.name
+   
+   image_url = url_for('static', filename=os.path.basename(tmpfile_path))
 
    # Preparar la nueva entrada para la predicción
    ultima_fila = df2[featuresBVN2].iloc[1]
    nueva_entrada = ultima_fila.copy()
-   nueva_entrada['Year_df'] = fecha_futura.year
 
    X_new = pd.DataFrame([nueva_entrada])
    X_new_scaled = scaler.transform(X_new)
    # Realizar la predicción
    prediccion = linear_model.predict(X_new_scaled)
-   return jsonify({'fecha': fecha_seleccionada, 'prediccion': prediccion[0]})
+   return jsonify({'prediccion': prediccion[0], 'imagen': image_url})
 
 @app.route('/predict4', methods=['POST'])
 def predict4():
