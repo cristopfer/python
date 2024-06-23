@@ -71,11 +71,9 @@ def predict():
    fecha_seleccionada = request.form['fecha']
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
    fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
-   print(fecha_seleccionada)
    df = pd.read_csv(file_path)
    df['Year_df'] = pd.to_datetime(df['Year_df'])
    df2 = df[df['Year_df'] < fecha_seleccionada]
-   print(f"Cantidad de registros después de la selección: {len(df2)}")
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
        'High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF',
        'Low_GCF', 'Adj Close_GCF', 'Open_GSPC', 'High_GSPC',
@@ -92,15 +90,24 @@ def predict():
    modelRBF = make_pipeline(MinMaxScaler(feature_range=(0, 1)), rbf_feature, Ridge(alpha=1.0))
    modelRBF.fit(XBVN_train, yBVN_train)
    yBVN_pred = modelRBF.predict(XBVN_test)
+
+   plt.figure(figsize=(10, 5))
+   plt.plot(yBVN_test.values, label='Actual')
+   plt.plot(yBVN_pred, label='Predicted')
+   plt.legend()
+   plt.title('Actual vs Predicted Open_BVN')
+   plt.xlabel('Samples')
+   plt.ylabel('Open_BVN')
+   plt.savefig('static/BVN_RBF.png', format='png')
+   plt.close()
+
    ultima_fila = df2[featuresBVN1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
-   #nueva_entrada['Year_df'] = fecha_futura.year
-
    nueva_entrada_df = pd.DataFrame([nueva_entrada])
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
-   return jsonify({'prediccion': prediccion[0]})
+   return jsonify({'prediccion': prediccion[0], 'imagen': 'static/BVN_RBF.png'})
 
 @app.route('/predict1', methods=['POST'])
 def predict1():
