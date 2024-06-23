@@ -91,24 +91,25 @@ def predict():
    modelRBF.fit(XBVN_train, yBVN_train)
    yBVN_pred = modelRBF.predict(XBVN_test)
 
-   plt.figure(figsize=(10, 5))
-   plt.plot(yBVN_test.values, label='Actual')
-   plt.plot(yBVN_pred, label='Predicted')
-   plt.legend()
-   plt.title('Actual vs Predicted Open_BVN')
-   plt.xlabel('Samples')
-   plt.ylabel('Open_BVN')
-   #plt.savefig('static/BVN_RBF.png', format='png')
-   plt.show()
-   #plt.close()
-
+   with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
+      plt.figure(figsize=(10, 5))
+      plt.plot(y_test.values, label='Actual')
+      plt.plot(y_pred, label='Predicted')
+      plt.legend()
+      plt.title('Actual vs Predicted Open_BVN')
+      plt.xlabel('Samples')
+      plt.ylabel('Open_BVN')
+      plt.savefig(tmpfile.name, format='png')
+      tmpfile_path = tmpfile.name
+   
+   image_url = url_for('static', filename=os.path.basename(tmpfile_path))
    ultima_fila = df2[featuresBVN1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
    nueva_entrada_df = pd.DataFrame([nueva_entrada])
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
-   return jsonify({'prediccion': prediccion[0], 'imagen': 'static/BVN_RBF.png'})
+   return jsonify({'prediccion': prediccion[0], 'imagen': image_url})
 
 @app.route('/predict1', methods=['POST'])
 def predict1():

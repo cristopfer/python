@@ -206,7 +206,7 @@
                         $("#verBVN_RBF").click(function() {
                             var img = $('<img />', { 
                                 id: 'prediccionImagen',
-                                src: '{{ url_for("static", filename="'+ response.imagen +'") }}',
+                                src: response.imagen,
                                 alt: 'Predicción'
                             });
                             $('#resultadoImagen').empty().append(img);
