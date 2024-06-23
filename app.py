@@ -73,7 +73,7 @@ def predict():
    fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
    df = pd.read_csv(file_path)
    df.index = pd.to_datetime(df.index)
-   df2 = df.loc[df.index < fecha_seleccionada]
+   df2 = df[df.index < fecha_seleccionada]
    print(df2)
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
        'High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF',
