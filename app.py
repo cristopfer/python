@@ -16,6 +16,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_percentage_error
 import numpy as np
 from datetime import datetime
 from funciones.datosProcesados import cargarDatos
+import tempfile
 
 app = Flask(__name__)
 app.static_folder = 'static'
