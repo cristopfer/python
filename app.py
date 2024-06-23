@@ -67,9 +67,11 @@ def home3():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-   fecha_seleccionada = request.form['fecha']
+   fecha_Ini = request.form['fechaI']
+   fecha_Fin = request.form['fechaF']
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
-   df2 = pd.read_csv(file_path)
+   df2 = cargarDatos(fecha_Ini,fecha_Fin)
+   #df2 = pd.read_csv(file_path)
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
        'High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF',
        'Low_GCF', 'Adj Close_GCF', 'Open_GSPC', 'High_GSPC',
@@ -91,7 +93,7 @@ def predict():
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
-   return jsonify({'fecha': fecha_seleccionada, 'prediccion': prediccion[0]})
+   return jsonify({'prediccion': prediccion[0]})
 
 @app.route('/predict1', methods=['POST'])
 def predict1():

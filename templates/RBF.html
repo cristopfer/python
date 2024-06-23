@@ -37,20 +37,6 @@
             </select>
         </div>
     </div>
-    <div>
-        <div style="text-align: center;">
-            <button class="btn btn-success" onclick="toggleCorrTable()">Mostrar los datos ultimos</button>
-        </div><br><br>
-        <div class="container">
-            <div class="row align-items-start">
-                <div class="col-1"></div>
-                <div class="col-10">
-                    <div id="corrTable" style="display: none; overflow-x: auto;">{{ table1|safe }}</div>
-                </div>
-                <div class="col-1"></div>
-            </div>
-        </div><br>
-    </div>
     <div id = "BVN">
         <h1 class="text-center">Minera Buenaventura</h1>        
         <div class="container">
@@ -66,8 +52,10 @@
                 <div class="col-8">
                     <form id="predictForm">
                         <div class="form-group">
-                            <label for="fecha">Selecciona una fecha:</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required>
+                            <label for="fecha">Selecciona una fecha de inicio:</label>
+                            <input type="date" class="form-control" id="fechaIni" name="fecha" required>
+                            <label for="fecha">Selecciona una fecha de fin:</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fecha" required>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="verResultado()">Ver Resultado</button>
                     </form>
@@ -137,7 +125,7 @@
                             <label for="fecha1">Selecciona una fecha:</label>
                             <input type="date" class="form-control" id="fecha2" name="fecha2" required>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="verResultado2()">Ver Resultado</button>
+                        <button type="button" class="btn btn-primary" onclick="verResultado2()">Ver Resultado del dia anterior</button>
                     </form>
                 </div>
                 <div class="col-2"></div>           
@@ -200,14 +188,15 @@
             });          
         });
         function verResultado() {
-            var fecha = $('#fecha').val();
+            var fechaIni = $('#fechaIni').val();
+            var fechaFin = $('#fechaFin').val();
             if (fecha) {
                 jQuery.ajax({
                     type: 'POST',
                     url: '/predict',
-                    data: { fecha: fecha },
+                    data: { fechaI: fechaIni, fechaF: fechaFin },
                     success: function(response) {
-                        $('#resultadoTexto').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $('#resultadoTexto').text('Predicción para el dia posterior del precio OPEN: ' + response.prediccion);
                     },
                     error: function(error) {
                         console.log(error);
