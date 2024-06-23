@@ -3,6 +3,7 @@ from datetime import datetime
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.kernel_approximation import RBFSampler
+from sklearn.pipeline import make_pipeline
 import matplotlib.pyplot as plt
 import tempfile
 
