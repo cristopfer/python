@@ -512,7 +512,7 @@ def predict9():
    
    image_url = url_for('static', filename=os.path.basename(tmpfile_path))
    
-   ultima_fila = df2[featuresBVN2].iloc[1]
+   ultima_fila = df2[featuresBVN2].iloc[-1]
    nueva_entrada = ultima_fila.copy()
    X_new = pd.DataFrame([nueva_entrada])
    X_new_scaled = scaler.transform(X_new)
@@ -561,7 +561,7 @@ def predict10():
    
    image_url = url_for('static', filename=os.path.basename(tmpfile_path))
 
-   ultima_fila = df2[featuresBHP2].iloc[1]
+   ultima_fila = df2[featuresBHP2].iloc[-1]
    nueva_entrada = ultima_fila.copy()
    X_new = pd.DataFrame([nueva_entrada])
    X_new_scaled = scaler.transform(X_new)
@@ -580,7 +580,7 @@ def predict11():
    featuresFSM2 = ['High_T05_SCCO', 'Low_T05_SCCO', 'Adj Close_T05_SCCO','Open_SIF','High_SIF', 'Low_SIF',
    'Adj Close_SIF', 'Open_HGF', 'High_HGF', 'Low_HGF', 'Adj Close_HGF','Open_GSPC', 'High_GSPC',
    'Low_GSPC', 'Close_GSPC', 'Open_DJI', 'High_DJI', 'Low_DJI',
-   'Close_DJI','Year_df']
+   'Close_DJI']
    targetFSM2 = 'Open_T05_SCCO'
    X1 = df2[featuresFSM2].iloc[1:]
    Series_Temporal = df2[targetFSM2].shift(-1)
@@ -611,7 +611,7 @@ def predict11():
    
    image_url = url_for('static', filename=os.path.basename(tmpfile_path))
 
-   ultima_fila = df2[featuresFSM2].iloc[1]
+   ultima_fila = df2[featuresFSM2].iloc[-1]
    nueva_entrada = ultima_fila.copy()
    X_new = pd.DataFrame([nueva_entrada])
    X_new_scaled = scaler.transform(X_new)
