@@ -92,8 +92,7 @@ def predict():
    yBVN_pred = modelRBF.predict(XBVN_test)
    ultima_fila = df2[featuresBVN1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
-   print(ultima_fila)
-   print(df2[featuresBVN1].iloc[-1])
+   print(df2[featuresBVN1])
    #nueva_entrada['Year_df'] = fecha_futura.year
 
    nueva_entrada_df = pd.DataFrame([nueva_entrada])
