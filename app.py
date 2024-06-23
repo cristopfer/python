@@ -5,6 +5,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from sklearn.model_selection import train_test_split
 from sklearn.kernel_approximation import RBFSampler
+from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import make_pipeline
