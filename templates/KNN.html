@@ -37,22 +37,6 @@
             </select>
         </div>
     </div>
-    <div>
-        <div style="text-align: center;">
-            <button class="btn btn-success" onclick="toggleCorrTable9()">Mostrar los datos del dataframe</button>
-        </div><br><br>
-        <div class="container">
-            <div class="row align-items-start">
-                <div class="col-1"></div>
-                <div class="col-10">
-                    <div id="corrTable9" style="display: none; overflow-x: auto;">
-                    {{ table1|safe }}
-                    </div>
-                </div>
-                <div class="col-1"></div>
-            </div>
-        </div><br>
-    </div>
     <div id = "BVN">
         <h1 class="text-center">Minera Buenaventura</h1>        
         <div class="container">
@@ -82,6 +66,15 @@
                     <div id="prediccionResultado" style="text-align: center;">
                         <h4 id="resultadoTexto"></h4>
                     </div>
+                </div>
+                <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h2>Ver grafico de prediccion</h2>
+                    <button id="verBVN_KNN" type="button" class="btn btn-primary">Ver grafico</button>
+                    <div id="resultadoImagen"></div>
                 </div>
                 <div class="col-2"></div>           
             </div>
@@ -118,6 +111,15 @@
                     </div>
                 </div>
                 <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h2>Ver grafico de prediccion</h2>
+                    <button id="verBHP_KNN" type="button" class="btn btn-primary">Ver grafico</button>
+                    <div id="resultadoImagen1"></div>
+                </div>
+                <div class="col-2"></div>           
             </div>
         </div><br>
     </div>
@@ -152,20 +154,21 @@
                     </div>
                 </div>
                 <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h2>Ver grafico de prediccion</h2>
+                    <button id="verFSM_KNN" type="button" class="btn btn-primary">Ver grafico</button>
+                    <div id="resultadoImagen2"></div>
+                </div>
+                <div class="col-2"></div>           
             </div>
         </div><br>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function toggleCorrTable9() {
-            var corrTableDiv = document.getElementById('corrTable9');
-            if (corrTableDiv.style.display === 'none') {
-                corrTableDiv.style.display = 'block';
-            } else {
-                corrTableDiv.style.display = 'none';
-            }
-        }
         $(document).ready(function() {  
             if (typeof jQuery != 'undefined') {
                 console.log("jQuery está cargado");
@@ -209,7 +212,15 @@
                     url: '/predict9',
                     data: { fecha: fecha },
                     success: function(response) {
-                        $('#resultadoTexto').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $('#resultadoTexto').text('Predicción para el dia posterior del precio OPEN:  ' + response.prediccion);
+                        $("#verBVN_KNN").click(function() {
+                            var img = $('<img />', { 
+                                id: 'prediccionImagen',
+                                src: response.imagen,
+                                alt: 'Predicción'
+                            });
+                            $('#resultadoImagen').empty().append(img);
+                        });
                     },
                     error: function(error) {
                         console.log(error);
@@ -227,7 +238,15 @@
                     url: '/predict10',
                     data: { fecha: fecha },
                     success: function(response) {
-                        $('#resultadoTexto1').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $('#resultadoTexto1').text('Predicción para el dia posterior del precio OPEN:  ' + response.prediccion);
+                        $("#verBHP_KNN").click(function() {
+                            var img = $('<img />', { 
+                                id: 'prediccionImagen1',
+                                src: response.imagen,
+                                alt: 'Predicción'
+                            });
+                            $('#resultadoImagen1').empty().append(img);
+                        });
                     },
                     error: function(error) {
                         console.log(error);
@@ -245,7 +264,15 @@
                     url: '/predict11',
                     data: { fecha: fecha },
                     success: function(response) {
-                        $('#resultadoTexto2').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $('#resultadoTexto2').text('Predicción para el dia posterior del precio OPEN:  ' + response.prediccion);
+                        $("#verFSM_KNN").click(function() {
+                            var img = $('<img />', { 
+                                id: 'prediccionImagen2',
+                                src: response.imagen,
+                                alt: 'Predicción'
+                            });
+                            $('#resultadoImagen2').empty().append(img);
+                        });
                     },
                     error: function(error) {
                         console.log(error);
