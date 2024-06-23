@@ -92,9 +92,9 @@ def predict():
    yBVN_pred = modelRBF.predict(XBVN_test)
    ultima_fila = df2[featuresBVN1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
-   nueva_entrada['Year_df'] = fecha_futura.year
+   #nueva_entrada['Year_df'] = fecha_futura.year
 
-   nueva_entrada_df = pd.DataFrame([nueva_entrada], index=[fecha_futura])
+   nueva_entrada_df = pd.DataFrame([nueva_entrada])
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
