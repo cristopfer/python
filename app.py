@@ -400,7 +400,7 @@ def predict7():
 
    svm_model = SVR(kernel='rbf')  
    svm_model.fit(XBHP_train_scaled, yBHP_train)
-   yBHP_pred = svm_model.predict(XBHP_test)
+   yBHP_pred = svm_model.predict(XBHP_test_scaled)
    
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
@@ -450,7 +450,7 @@ def predict8():
 
    svm_model = SVR(kernel='rbf')  # Puedes ajustar el kernel según tus necesidades
    svm_model.fit(XFSM_train_scaled, yFSM_train)
-   yFSM_pred = svm_model.predict(XFSM_test)
+   yFSM_pred = svm_model.predict(XFSM_test_scaled)
    
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
