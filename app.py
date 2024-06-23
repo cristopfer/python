@@ -99,6 +99,7 @@ def predict():
    plt.xlabel('Samples')
    plt.ylabel('Open_BVN')
    plt.savefig('static/BVN_RBF.png', format='png')
+   plt.show()
    plt.close()
 
    ultima_fila = df2[featuresBVN1].iloc[-1]
