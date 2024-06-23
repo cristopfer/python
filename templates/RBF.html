@@ -52,10 +52,8 @@
                 <div class="col-8">
                     <form id="predictForm">
                         <div class="form-group">
-                            <label for="fecha">Selecciona una fecha de inicio:</label>
-                            <input type="date" class="form-control" id="fechaIni" name="fecha" required>
-                            <label for="fecha">Selecciona una fecha de fin:</label>
-                            <input type="date" class="form-control" id="fechaFin" name="fecha" required>
+                            <label for="fecha">Selecciona una fecha :</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha" required>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="verResultado()">Ver Resultado</button>
                     </form>
@@ -188,13 +186,12 @@
             });          
         });
         function verResultado() {
-            var fechaIni = $('#fechaIni').val();
-            var fechaFin = $('#fechaFin').val();
+            var fecha = $('#fecha').val();
             if (fechaIni) {
                 jQuery.ajax({
                     type: 'POST',
                     url: '/predict',
-                    data: { fechaI: fechaIni, fechaF: fechaFin },
+                    data: { fecha: fecha },
                     success: function(response) {
                         $('#resultadoTexto').text('Predicción para el dia posterior del precio OPEN: ' + response.prediccion);
                     },
