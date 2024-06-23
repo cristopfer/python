@@ -205,12 +205,12 @@ def predict3():
    # Definir y entrenar el modelo Gradient Boosting Regression
    linear_model = LinearRegression()
    linear_model.fit(XBVN_train_scaled, yBVN_train)
-   yBVN_pred = linear_model.predict(XBVN_test)
+   yBVN_pred = linear_model.predict(XBVN_test_scaled)
 
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yBVN_test.values, label='Actual')
-      plt.plot(-1*(yBVN_pred/100) - 6, label='Predicted')
+      plt.plot(yBVN_pred, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_BVN')
       plt.xlabel('Samples')
@@ -256,12 +256,12 @@ def predict4():
 
    linear_model = LinearRegression()
    linear_model.fit(XBHP_train_scaled, yBHP_train)
-   yBHP_pred = linear_model.predict(XBHP_test)
+   yBHP_pred = linear_model.predict(XBHP_test_scaled)
    
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yBHP_test.values, label='Actual')
-      plt.plot((yBHP_pred/100), label='Predicted')
+      plt.plot(yBHP_pred/100, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_BHP')
       plt.xlabel('Samples')
@@ -305,12 +305,12 @@ def predict5():
 
    linear_model = LinearRegression()
    linear_model.fit(XFSM_train_scaled, yFSM_train) 
-   yFSM_pred = linear_model.predict(XFSM_test)
+   yFSM_pred = linear_model.predict(XFSM_test_scaled)
 
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yFSM_test.values, label='Actual')
-      plt.plot((yFSM_pred/200)+100, label='Predicted')
+      plt.plot(yFSM_pred/200, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_FSM')
       plt.xlabel('Samples')
@@ -352,7 +352,7 @@ def predict6():
 
    svm_model = SVR(kernel='rbf')  # Puedes ajustar el kernel según tus necesidades
    svm_model.fit(XBVN_train_scaled, yBVN_train)
-   yBVN_pred = svm_model.predict(XBVN_test)
+   yBVN_pred = svm_model.predict(XBVN_test_scaled)
 
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
