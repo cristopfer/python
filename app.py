@@ -65,6 +65,8 @@ def predict():
    fecha_seleccionada = request.form['fecha']
    df = pd.read_csv(file_path)
    predicion, image_url = bnf(fecha_seleccionada,df) 
+   print(predicion)
+   print(image_url)
    return jsonify({'prediccion': prediccion, 'imagen': image_url})
 
 @app.route('/predict1', methods=['POST'])
