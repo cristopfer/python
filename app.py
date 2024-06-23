@@ -310,7 +310,7 @@ def predict5():
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yFSM_test.values, label='Actual')
-      plt.plot((yFSM_pred/200), label='Predicted')
+      plt.plot((yFSM_pred/200)+100, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_FSM')
       plt.xlabel('Samples')
