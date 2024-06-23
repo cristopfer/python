@@ -79,7 +79,7 @@ def predict():
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
        'High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF',
        'Low_GCF', 'Adj Close_GCF', 'Open_GSPC', 'High_GSPC',
-       'Low_GSPC', 'Close_GSPC', 'Open_PEN_X', 'High_PEN_X', 'Low_PEN_X', 'Close_PEN_X','Year_df']
+       'Low_GSPC', 'Close_GSPC', 'Open_PEN_X', 'High_PEN_X', 'Low_PEN_X', 'Close_PEN_X']
    targetBVN1 = 'Open_BVN'
    X1 = df2[featuresBVN1].iloc[1:]
    Series_Temporal = df2[targetBVN1].shift(-1)
