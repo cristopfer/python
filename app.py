@@ -82,6 +82,9 @@ def predict():
    X1 = df2[featuresBVN1].iloc[1:]
    Series_Temporal = df2[targetBVN1].shift(-1)
    y1 = Series_Temporal.iloc[1:]
+   mask = ~y1.isna()
+   X1 = X1[mask]
+   y1 = y1[mask]
    XBVN_train, XBVN_test, yBVN_train, yBVN_test = train_test_split(X1, y1, test_size=0.2, random_state=42)
    rbf_feature = RBFSampler(gamma=1, random_state=42, n_components=100)
    modelRBF = make_pipeline(MinMaxScaler(feature_range=(0, 1)), rbf_feature, Ridge(alpha=1.0))
