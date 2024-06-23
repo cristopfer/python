@@ -98,9 +98,9 @@ def predict():
    plt.title('Actual vs Predicted Open_BVN')
    plt.xlabel('Samples')
    plt.ylabel('Open_BVN')
-   plt.savefig('static/BVN_RBF.png', format='png')
+   #plt.savefig('static/BVN_RBF.png', format='png')
    plt.show()
-   plt.close()
+   #plt.close()
 
    ultima_fila = df2[featuresBVN1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
