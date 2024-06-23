@@ -72,6 +72,8 @@
             <div class="row align-items-start justify-content-center">
                 <div class="col-2"></div>
                 <div class="col-8">
+                    <h2>Ver grafico de prediccion</h2>
+                    <button id="verBVN_RBF" type="button" class="btn btn-primary">Ver Resultado</button>
                     <div id="resultadoImagen"></div>
                 </div>
                 <div class="col-2"></div>           
@@ -201,15 +203,14 @@
                     data: { fecha: fecha },
                     success: function(response) {
                         $('#resultadoTexto').text('Predicción para el dia posterior del precio OPEN: ' + response.prediccion);
-                         // Crear una nueva etiqueta de imagen
-                        var img = $('<img />', { 
-                            id: 'prediccionImagen',
-                            src: '{{ url_for("static", filename="'+ response.imagen +'") }}',
-                            alt: 'Predicción'
-                        });
-                
-                        // Añadir la imagen al contenedor
-                        $('#resultadoImagen').empty().append(img);
+                        $("#verBVN_RBF").click(function() {
+                            var img = $('<img />', { 
+                                id: 'prediccionImagen',
+                                src: '{{ url_for("static", filename="'+ response.imagen +'") }}',
+                                alt: 'Predicción'
+                            });
+                            $('#resultadoImagen').empty().append(img);
+                        });                        
                     },
                     error: function(error) {
                         console.log(error);
