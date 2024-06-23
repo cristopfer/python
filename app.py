@@ -302,8 +302,7 @@ def predict5():
    df2 = df[df['Year_df'] < fecha_seleccionada]
    featuresFSM2 = ['High_T05_SCCO', 'Low_T05_SCCO', 'Adj Close_T05_SCCO','Open_SIF','High_SIF', 'Low_SIF',
    'Adj Close_SIF', 'Open_HGF', 'High_HGF', 'Low_HGF', 'Adj Close_HGF','Open_GSPC', 'High_GSPC',
-   'Low_GSPC', 'Close_GSPC', 'Open_DJI', 'High_DJI', 'Low_DJI',
-   'Close_DJI','Year_df']
+   'Low_GSPC', 'Close_GSPC', 'Open_DJI', 'High_DJI', 'Low_DJI','Close_DJI']
    targetFSM2 = 'Open_T05_SCCO'
    X1 = df2[featuresFSM2].iloc[1:]
    Series_Temporal = df2[targetFSM2].shift(-1)
