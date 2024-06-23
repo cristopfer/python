@@ -238,7 +238,7 @@
                     url: '/predict1',
                     data: { fecha: fecha },
                     success: function(response) {
-                        $('#resultadoTexto1').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $('#resultadoTexto1').text('Predicción para el dia posterior del precio OPEN: ' + response.prediccion);
                         $("#verBHP_RBF").click(function() {
                             var img = $('<img />', { 
                                 id: 'prediccionImagen1',
@@ -264,7 +264,7 @@
                     url: '/predict2',
                     data: { fecha: fecha },
                     success: function(response) {
-                        $('#resultadoTexto2').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $('#resultadoTexto2').text('Predicción para el dia posterior del precio OPEN: ' + response.prediccion);
                         $("#verFSM_RBF").click(function() {
                             var img = $('<img />', { 
                                 id: 'prediccionImagen2',

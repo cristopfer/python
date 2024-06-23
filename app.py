@@ -25,14 +25,7 @@ file_path = 'dataframe/finanzas.csv'
 
 @app.route('/')
 def home():
-   df2 = pd.read_csv(file_path)
-   # BVN
-   corr_matrix = df2.tail()
-   corr_html = corr_matrix.to_html(classes='data', header="true")
-   soup = BeautifulSoup(corr_html, 'html.parser')  
-   data = soup.prettify()
-
-   return render_template('RBF.html', table1=data)
+   return render_template('RBF.html')
 
 @app.route('/BA.html')
 def home1():
