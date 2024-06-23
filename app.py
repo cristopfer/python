@@ -210,7 +210,7 @@ def predict3():
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yBVN_test.values, label='Actual')
-      plt.plot((yBVN_pred/100), label='Predicted')
+      plt.plot(-1*(yBVN_pred/100), label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_BVN')
       plt.xlabel('Samples')
@@ -434,7 +434,7 @@ def predict8():
    featuresFSM2 = ['High_T05_SCCO', 'Low_T05_SCCO', 'Adj Close_T05_SCCO','Open_SIF','High_SIF', 'Low_SIF',
    'Adj Close_SIF', 'Open_HGF', 'High_HGF', 'Low_HGF', 'Adj Close_HGF','Open_GSPC', 'High_GSPC',
    'Low_GSPC', 'Close_GSPC', 'Open_DJI', 'High_DJI', 'Low_DJI',
-   'Close_DJI','Year_df']
+   'Close_DJI']
    targetFSM2 = 'Open_T05_SCCO'
    X1 = df2[featuresFSM2].iloc[1:]
    Series_Temporal = df2[targetFSM2].shift(-1)
