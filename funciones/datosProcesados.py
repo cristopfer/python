@@ -1,6 +1,6 @@
 import yfinance as yf
 
-def cargarDatos(fechaInicio,fechaFin)
+def cargarDatos(fechaInicio,fechaFin):
     BVN_df = yf.download('BVN', start = fechaInicio, end = fechaFin)
     BVN_df.drop( ['Volume', 'Close'] , axis=1, inplace=True)
     BVN_df.columns =  (column + "_BVN" for column in BVN_df.columns )
