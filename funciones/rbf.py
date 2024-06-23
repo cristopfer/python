@@ -1,5 +1,9 @@
 from flask import  send_file, url_for
 from datetime import datetime
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.kernel_approximation import RBFSampler
+import matplotlib.pyplot as plt
 import tempfile
 
 def bnf(fecha_seleccionada, df):
