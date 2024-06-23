@@ -72,7 +72,7 @@ def predict():
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
    df2 = pd.read_csv(file_path)
    fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
-   df2 = df2[df2.index < fecha_seleccionada]
+   df2 = df2[df2['date'] < fecha_seleccionada]
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
        'High_GLD', 'Low_GLD', 'Adj Close_GLD', 'Open_GCF', 'High_GCF',
        'Low_GCF', 'Adj Close_GCF', 'Open_GSPC', 'High_GSPC',
