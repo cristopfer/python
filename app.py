@@ -261,7 +261,7 @@ def predict4():
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yBHP_test.values, label='Actual')
-      plt.plot(yBHP_pred/100, label='Predicted')
+      plt.plot(yBHP_pred, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_BHP')
       plt.xlabel('Samples')
@@ -310,7 +310,7 @@ def predict5():
    with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
       plt.figure(figsize=(10, 5))
       plt.plot(yFSM_test.values, label='Actual')
-      plt.plot(yFSM_pred/200, label='Predicted')
+      plt.plot(yFSM_pred, label='Predicted')
       plt.legend()
       plt.title('Actual vs Predicted Open_FSM')
       plt.xlabel('Samples')
