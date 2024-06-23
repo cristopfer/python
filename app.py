@@ -69,7 +69,7 @@ def home3():
 def predict():
    fecha_Ini = request.form['fechaI']
    fecha_Fin = request.form['fechaF']
-   fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
+   fecha_futura = datetime.strptime(fecha_Fin, '%Y-%m-%d')
    df2 = cargarDatos(fecha_Ini,fecha_Fin)
    #df2 = pd.read_csv(file_path)
    featuresBVN1 = ['High_BVN', 'Low_BVN', 'Adj Close_BVN','Open_GLD',
