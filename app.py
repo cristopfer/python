@@ -21,7 +21,7 @@ import tempfile
 app = Flask(__name__)
 app.static_folder = 'static'
 
-file_path = 'dataframe/finanzas.csv'  # Reemplaza con la ruta a tu archivo CSV
+file_path = 'dataframe/finanzas.csv' 
 
 @app.route('/')
 def home():
@@ -116,55 +116,89 @@ def predict():
 def predict1():
    fecha_seleccionada = request.form['fecha']
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
-   df2 = pd.read_csv(file_path)
+   fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
+   df = pd.read_csv(file_path)
+   df['Year_df'] = pd.to_datetime(df['Year_df'])
+   df2 = df[df['Year_df'] < fecha_seleccionada]
    featuresBHP1 = ['High_T03_BHP', 'Low_T03_BHP', 'Adj Close_T03_BHP','Open_SIF','High_SIF', 'Low_SIF',
        'Adj Close_SIF', 'Open_HGF', 'High_HGF', 'Low_HGF', 'Adj Close_HGF','Open_GSPC', 'High_GSPC',
        'Low_GSPC', 'Close_GSPC', 'Open_DJI', 'High_DJI', 'Low_DJI',
-       'Close_DJI','Year_df']
+       'Close_DJI']
    targetBHP1 = 'Open_T03_BHP'
    X1 = df2[featuresBHP1].iloc[1:]
-   y1 = df2[targetBHP1].iloc[1:]
+   Series_Temporal = df2[targetBHP1].shift(-1)
+   y1 = Series_Temporal.iloc[1:]
+   mask = ~y1.isna()
+   X1 = X1[mask]
+   y1 = y1[mask]
    XBHP_train, XBHP_test, yBHP_train, yBHP_test = train_test_split(X1, y1, test_size=0.2, random_state=42)
    rbf_feature = RBFSampler(gamma=1, random_state=42, n_components=100)
    modelRBF = make_pipeline(MinMaxScaler(feature_range=(0, 1)), rbf_feature, Ridge(alpha=1.0))
    modelRBF.fit(XBHP_train, yBHP_train)
    yBHP_pred = modelRBF.predict(XBHP_test)
+   with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
+      plt.figure(figsize=(10, 5))
+      plt.plot(yBHP_test.values, label='Actual')
+      plt.plot(yBHP_pred, label='Predicted')
+      plt.legend()
+      plt.title('Actual vs Predicted Open_BHP')
+      plt.xlabel('Samples')
+      plt.ylabel('Open_BHP')
+      plt.savefig(tmpfile.name, format='png')
+      tmpfile_path = tmpfile.name
+   
+   image_url = url_for('static', filename=os.path.basename(tmpfile_path))
    ultima_fila = df2[featuresBHP1].iloc[-1]
    nueva_entrada = ultima_fila.copy()
-   nueva_entrada['Year_df'] = fecha_futura.year
-
-   nueva_entrada_df = pd.DataFrame([nueva_entrada], index=[fecha_futura])
+   nueva_entrada_df = pd.DataFrame([nueva_entrada])
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
-   return jsonify({'fecha': fecha_seleccionada, 'prediccion': prediccion[0]})
+   return jsonify({'prediccion': prediccion[0], 'imagen': image_url})
 
 @app.route('/predict2', methods=['POST'])
 def predict2():
    fecha_seleccionada = request.form['fecha']
    fecha_futura = datetime.strptime(fecha_seleccionada, '%Y-%m-%d')
-   df2 = pd.read_csv(file_path)
+   fecha_seleccionada = pd.to_datetime(fecha_seleccionada)
+   df = pd.read_csv(file_path)
+   df['Year_df'] = pd.to_datetime(df['Year_df'])
+   df2 = df[df['Year_df'] < fecha_seleccionada]
    featuresFSM = ['High_T05_SCCO', 'Low_T05_SCCO', 'Adj Close_T05_SCCO','Open_SIF','High_SIF', 'Low_SIF',
    'Adj Close_SIF', 'Open_HGF', 'High_HGF', 'Low_HGF', 'Adj Close_HGF','Open_GSPC', 'High_GSPC',
    'Low_GSPC', 'Close_GSPC', 'Open_DJI', 'High_DJI', 'Low_DJI',
-   'Close_DJI','Year_df']
+   'Close_DJI']
    targetFSM = 'Open_T05_SCCO'
    X1 = df2[featuresFSM].iloc[1:]
-   y1 = df2[targetFSM].iloc[1:]
+   Series_Temporal = df2[targetFSM].shift(-1)
+   y1 = Series_Temporal.iloc[1:]
+   mask = ~y1.isna()
+   X1 = X1[mask]
+   y1 = y1[mask]
    XFSM_train, XFSM_test, yFSM_train, yFSM_test = train_test_split(X1, y1, test_size=0.2, random_state=42)
    rbf_feature = RBFSampler(gamma=1, random_state=42, n_components=100)
    modelRBF = make_pipeline(MinMaxScaler(feature_range=(0, 1)), rbf_feature, Ridge(alpha=1.0))
    modelRBF.fit(XFSM_train, yFSM_train)
    yFSM_pred = modelRBF.predict(XFSM_test)
+   with tempfile.NamedTemporaryFile(delete=False, suffix='.png', dir='static') as tmpfile:
+      plt.figure(figsize=(10, 5))
+      plt.plot(yFSM_test.values, label='Actual')
+      plt.plot(yFSM_pred, label='Predicted')
+      plt.legend()
+      plt.title('Actual vs Predicted Open_FSM')
+      plt.xlabel('Samples')
+      plt.ylabel('Open_FSM')
+      plt.savefig(tmpfile.name, format='png')
+      tmpfile_path = tmpfile.name
+   
+   image_url = url_for('static', filename=os.path.basename(tmpfile_path))
    ultima_fila = df2[featuresFSM].iloc[-1]
    nueva_entrada = ultima_fila.copy()
-   nueva_entrada['Year_df'] = fecha_futura.year
-
-   nueva_entrada_df = pd.DataFrame([nueva_entrada], index=[fecha_futura])
+   nueva_entrada_df = pd.DataFrame([nueva_entrada])
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
-   return jsonify({'fecha': fecha_seleccionada, 'prediccion': prediccion[0]})
+   return jsonify({'prediccion': prediccion[0], 'imagen': image_url})
 
 @app.route('/predict3', methods=['POST'])
 def predict3():

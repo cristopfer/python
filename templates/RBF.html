@@ -73,7 +73,7 @@
                 <div class="col-2"></div>
                 <div class="col-8">
                     <h2>Ver grafico de prediccion</h2>
-                    <button id="verBVN_RBF" type="button" class="btn btn-primary">Ver Resultado</button>
+                    <button id="verBVN_RBF" type="button" class="btn btn-primary">Ver grafico</button>
                     <div id="resultadoImagen"></div>
                 </div>
                 <div class="col-2"></div>           
@@ -111,6 +111,15 @@
                     </div>
                 </div>
                 <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h2>Ver grafico de prediccion</h2>
+                    <button id="verBHP_RBF" type="button" class="btn btn-primary">Ver grafico</button>
+                    <div id="resultadoImagen1"></div>
+                </div>
+                <div class="col-2"></div>           
             </div>
         </div>
     </div>
@@ -145,20 +154,21 @@
                     </div>
                 </div>
                 <div class="col-2"></div>           
+            </div><br>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h2>Ver grafico de prediccion</h2>
+                    <button id="verFSM_RBF" type="button" class="btn btn-primary">Ver grafico</button>
+                    <div id="resultadoImagen2"></div>
+                </div>
+                <div class="col-2"></div>           
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>   
-    <script>
-        function toggleCorrTable() {
-            var corrTableDiv = document.getElementById('corrTable');
-            if (corrTableDiv.style.display === 'none') {
-                corrTableDiv.style.display = 'block';
-            } else {
-                corrTableDiv.style.display = 'none';
-            }
-        }            
+    <script>            
         $(document).ready(function() {  
             if (typeof jQuery != 'undefined') {
                 console.log("jQuery está cargado");
@@ -229,6 +239,14 @@
                     data: { fecha: fecha },
                     success: function(response) {
                         $('#resultadoTexto1').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $("#verBHP_RBF").click(function() {
+                            var img = $('<img />', { 
+                                id: 'prediccionImagen1',
+                                src: response.imagen,
+                                alt: 'Predicción'
+                            });
+                            $('#resultadoImagen1').empty().append(img);
+                        }); 
                     },
                     error: function(error) {
                         console.log(error);
@@ -247,6 +265,14 @@
                     data: { fecha: fecha },
                     success: function(response) {
                         $('#resultadoTexto2').text('Predicción para la fecha ' + response.fecha + ' OPEN: ' + response.prediccion);
+                        $("#verFSM_RBF").click(function() {
+                            var img = $('<img />', { 
+                                id: 'prediccionImagen2',
+                                src: response.imagen,
+                                alt: 'Predicción'
+                            });
+                            $('#resultadoImagen2').empty().append(img);
+                        }); 
                     },
                     error: function(error) {
                         console.log(error);
