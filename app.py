@@ -93,6 +93,7 @@ def predict():
    nueva_entrada_scaled = modelRBF.named_steps['minmaxscaler'].transform(nueva_entrada_df)
    nueva_entrada_rbf = modelRBF.named_steps['rbfsampler'].transform(nueva_entrada_scaled)
    prediccion = modelRBF.named_steps['ridge'].predict(nueva_entrada_rbf)
+   print(prediccion[0])
    return jsonify({'prediccion': prediccion[0]})
 
 @app.route('/predict1', methods=['POST'])
