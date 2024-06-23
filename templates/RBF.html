@@ -190,7 +190,7 @@
         function verResultado() {
             var fechaIni = $('#fechaIni').val();
             var fechaFin = $('#fechaFin').val();
-            if (fecha) {
+            if (fechaIni) {
                 jQuery.ajax({
                     type: 'POST',
                     url: '/predict',
